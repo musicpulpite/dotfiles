@@ -1,0 +1,15 @@
+[init]
+	defaultBranch = main
+[user]
+	name = musicpulpite
+	email = musicpulpite@gmail.com
+[core]
+	editor = vim  # or code (VS Code), nano, emacs, etc.
+[credential]
+	helper = cache  # or store for longer-term storage
+[diff]
+    tool = vscode
+[merge]
+	tool = vscode
+[push]
+    default = current  # Pushes the current branch to a branch of the same name
