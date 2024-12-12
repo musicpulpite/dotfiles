@@ -15,6 +15,7 @@ so that the symlinks are created in the appropriate locations
 
 i.e.
 
+```
 $HOME/
 ├── .config/
 │   ├── nvim/
@@ -25,8 +26,10 @@ $HOME/
 │   ├── autoload/
 │   ├── colors/
 │   └── plugin/
-└── .tools/
+└── Library/
+    ├── Fonts/
     └── ...
+```
 
 would match exactly within this repo
 
