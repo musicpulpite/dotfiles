@@ -1,0 +1,29 @@
+live_config_reload = true
+working_directory = "/Users/musicpulpite/development/"
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+dynamic_padding = false
+decorations = "Transparent"
+opacity = 0.9
+
+[window.padding]
+y = 25
+
+[mouse]
+hide_when_typing = true
+bindings = [
+  { mouse = "Left", mods = "Command", action = "open" },
+]
+
+[cursor]
+style = { shape = "Beam", blinking = "On" }
+blink_interval = 750
+
+[keyboard]
+bindings = [
+  { key = "Right", mods = "Command", chars = "\u001BF" },
+  { key = "Left",  mods = "Command", chars = "\u001BB" },
+]
