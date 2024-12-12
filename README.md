@@ -34,7 +34,9 @@ would match exactly within this repo
 ```bash
 stow --verbose --target=$HOME --restow */
 ```
+or just `make all`
 2. Delete all stowed symlinks
 ```bash
 stow --verbose --target=$HOME --delete */
 ```
+or just `make delete`
