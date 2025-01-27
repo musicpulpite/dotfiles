@@ -1,0 +1,56 @@
+#!/bin/zsh
+
+echo "this script is made obsolete by [direnv](https://direnv.net/)"
+exit 1
+
+VERBOSE=false
+UNSET=false
+
+# source: https://www.reddit.com/r/bash/comments/12bqmyi/is_there_a_recommended_alternative_to_getopts/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+while (( $# > 0 )) ; do
+  case $1 in
+    -v|--verbose)
+      VERBOSE=true
+      ;;
+    -u|--unset)
+      UNSET=true
+      ;;
+    --) shift; break ;;
+    -*) printf >&2 'Unknown option %s\n' "$1" ; exit 1 ;;
+    *) break ;;
+  esac
+  shift
+done
+
+debug () {
+  if [[ "$VERBOSE" == "true" ]]; then
+    echo $1
+  fi
+}
+
+
+debug "VERBOSE=${VERBOSE}"
+debug "UNSET=${UNSET}"
+debug "Loading env files hierarchically"
+curr_dir=$(pwd)
+curr_dir_parts=(${(@s:/:)curr_dir})
+
+env_dir=""
+for dir in "${curr_dir_parts[@]}"; do
+  env_dir+="/${dir}"
+  debug "Attempting to load from ${env_dir}"
+
+  env_file="${env_dir}/.env"
+  if [ -f "$env_file" ]; then
+    debug "Env exists"
+    if [[ "$UNSET" == "true" ]]; then
+      debug "Unsetting env"
+      debug "$(grep -v '^#' $env_file)"
+      unset $(grep -v '^#' $env_file | sed -E 's/(.*)=.*/\1/' | xargs)
+    else
+      debug "Setting env"
+      debug "$(grep -v '^#' $env_file)"
+      export $(grep -v '^#' $env_file | xargs)
+    fi
+  fi
+done

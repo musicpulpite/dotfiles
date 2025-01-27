@@ -3,7 +3,7 @@ set guifont=Hack_Nerd_Font:h11
 " Important
 set encoding=utf8
 
-set relativenumber
+set number relativenumber
 
 " Disable compatibility with vi which can cause unexpected issues.
 set nocompatible
@@ -25,9 +25,9 @@ if !exists("g:syntax_on")
 endif
 
 " Enables cursor line position tracking:
-set cursorline
+" set cursorline
 " Removes the underline causes by enabling cursorline:
-highlight clear CursorLine
+" highlight clear CursorLine
 
 " START Conoline - see https://github.com/miyakogi/conoline.vim
 let g:conoline_auto_enable = 1
@@ -69,7 +69,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'miyakogi/conoline.vim'
 Plug 'preservim/nerdtree'
-
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 call plug#end()
 
