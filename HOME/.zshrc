@@ -55,6 +55,9 @@ source <(fzf --zsh)
 # https://direnv.net/
 eval "$(direnv hook zsh)"
 
+# source private zsh config (if present)
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
 cat << 'EOF'
 .----------------------------------------------------------------------.
 | _       __     __                               __               __  |
