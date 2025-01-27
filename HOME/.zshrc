@@ -41,8 +41,8 @@ alias ls=eza
 alias sh-load-env=/usr/local/bin/load-env
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Misc ~~~~~~~~~~~~~~~~~~~~~~~~
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+# export NVM_DIR=~/.nvm
+# source $(brew --prefix nvm)/nvm.sh
 
 # Created by `pipx` on 2024-09-07 23:46:32
 #export PATH="$PATH:/Users/musicpulpite/.local/bin"

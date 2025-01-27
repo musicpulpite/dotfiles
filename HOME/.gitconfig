@@ -13,3 +13,4 @@
 	tool = vscode
 [push]
     default = current  # Pushes the current branch to a branch of the same name
+    autoSetupRemote = true
