@@ -32,7 +32,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~~~
 # REMEMBER: to load OPENAI env variables using /usr/local/bin/load-env helper shell script
 
-alias ls=eza
+alias ls='eza --ignore-glob=".git|.git/*"'
 
 # points to shell script designed to source/unsource env variables from env files hierarchically
 alias sh-load-env=/usr/local/bin/load-env
