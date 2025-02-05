@@ -37,6 +37,15 @@ alias ls='eza --ignore-glob=".git|.git/*"'
 # points to shell script designed to source/unsource env variables from env files hierarchically
 alias sh-load-env=/usr/local/bin/load-env
 
+fd() {
+  # find all child directories of the current working directory (or directory argument)
+  # then use fzf to fuzzy search through these results
+  # then cd into the selected directory
+  local dir
+  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Misc ~~~~~~~~~~~~~~~~~~~~~~~~
 # export NVM_DIR=~/.nvm
 # source $(brew --prefix nvm)/nvm.sh
