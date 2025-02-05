@@ -39,10 +39,23 @@ alias sh-load-env=/usr/local/bin/load-env
 
 fd() {
   # find all child directories of the current working directory (or directory argument)
+  # (ignore child directories that match any of the blob patterns stored in the FD_IGNORE env var)
   # then use fzf to fuzzy search through these results
   # then cd into the selected directory
   local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) &&
+
+  local start_path=${1:-.}
+
+  local FD_IGNORE=${FD_IGNORE:-"*/node_modules/*|*/.git/*|*/dist/*|*/.terragrunt-cache/*"}
+  local ignore_patterns=()
+  IFS='|' read -rA ignore_patterns <<< "$FD_IGNORE"
+  ignore_patterns=("${ignore_patterns[@]/#/\"}")
+  ignore_patterns=("${ignore_patterns[@]/%/\"}")
+  local ignore_args=${(j: -o -path :)ignore_patterns}
+
+  find_cmd="find $start_path -type d \( -path ${ignore_args[@]} -o -false \) -prune -o -type d -print"
+
+  dir=$(eval $find_cmd | fzf +m) &&
   cd "$dir"
 }
 
