@@ -17,7 +17,7 @@ setopt extended_glob null_glob
 path=(
     $path                           # Keep existing PATH entries
     $HOME/.local/bin
-    $HOME/go/gin
+    $HOME/go/bin
 )
 
 # Remove duplicate entries and non-existent directories
