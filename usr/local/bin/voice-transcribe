@@ -1,0 +1,70 @@
+#!/bin/bash                                                                                                                                                                                                                 
+
+log() {
+    local GREEN='\033[0;32m'
+    local NC='\033[0m' # No Color
+    echo -e "${GREEN}$@${NC}" >&2
+}
+
+error() {
+    local RED='\033[0;31m'
+    local NC='\033[0m' # No Color
+    echo -e "${RED}ERROR: $@${NC}" >&2
+}
+
+OUTPUT_DIR="${HOME}/Documents/Voice_Memos"
+TMP_AUDIO_FILE="$OUTPUT_DIR/.tmp_recordings/tmp.wav"
+DATETIME=$(date +"%Y%m%d_%H%M%S")
+OUTPUT_FILE="$OUTPUT_DIR/recording_$DATETIME"
+
+if [ ! -d "$OUTPUT_DIR" ]; then
+  mkdir -p "$OUTPUT_DIR"
+  echo "Created directory: $OUTPUT_DIR"
+fi
+if [ ! -d "$OUTPUT_DIR/.tmp_recordings" ]; then
+  mkdir -p "$OUTPUT_DIR/.tmp_recordings"
+  echo "Created temporary directory: $OUTPUT_DIR/.tmp_recordings"
+fi
+
+WHISPER_CPP_DIR="${HOME}/development/whisper.cpp"
+WHISPER_MODEL="$WHISPER_CPP_DIR/models/ggml-tiny.en.bin"
+WHISPER_CLI="$WHISPER_CPP_DIR/build/bin/whisper-cli"
+
+log "Starting audio recording... Press Ctrl+C to stop recording."
+
+# Record audio using sox's rec command
+rec -c 1 -r 16000 -b 16 -e signed-integer -t wav $TMP_AUDIO_FILE trim 0 00:30:00
+REC_STATUS=$?
+
+if [ $REC_STATUS -ne 0 ]; then
+    error "Recording failed"
+    exit 1
+fi
+
+log "Recording stopped. Transcribing audio..."
+
+# Process with whisper-cli
+WHISPER_OUTPUT=$("$WHISPER_CLI" -f "$TMP_AUDIO_FILE" -m "$WHISPER_MODEL" -otxt -of "$OUTPUT_FILE" 2>&1)
+WHISPER_STATUS=$?
+
+# Check if transcription was successful
+if [ $WHISPER_STATUS -eq 0 ]; then
+    log "Transcription complete. Results written to $OUTPUT_FILE"
+    
+    # Display transcription output to stdout
+    if [ -f "${OUTPUT_FILE}.txt" ]; then
+        cat "${OUTPUT_FILE}.txt" # send only transcription to stdout
+    else
+        error "Expected output file ${OUTPUT_FILE}.txt not found"
+        echo -e "\nCommand output:" >&2
+        echo "$WHISPER_OUTPUT" >&2
+	exit 2
+    fi
+else
+    error "Transcription failed with status $WHISPER_STATUS"
+    echo -e "\nCommand output:" >&2
+    echo "$WHISPER_OUTPUT" >&2
+    exit 2
+fi
+
+rm -f $TMP_AUDIO_FILE
