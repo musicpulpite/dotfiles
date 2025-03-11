@@ -18,6 +18,7 @@ path=(
     $path                           # Keep existing PATH entries
     $HOME/.local/bin
     $HOME/go/bin
+    $HOME/.cargo/bin
 )
 
 # Remove duplicate entries and non-existent directories
@@ -33,6 +34,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # REMEMBER: to load OPENAI env variables using /usr/local/bin/load-env helper shell script
 
 alias ls='eza --ignore-glob=".git|.git/*"'
+
+# allows the cd command to search for matches in the following directories, unlocking quick indirect cd's
+export CDPATH=".:$HOME/development"
 
 # points to shell script designed to source/unsource env variables from env files hierarchically
 alias sh-load-env=/usr/local/bin/load-env
