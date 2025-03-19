@@ -63,6 +63,8 @@ fd() {
   cd "$dir"
 }
 
+alias unset_aws="unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN"
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Misc ~~~~~~~~~~~~~~~~~~~~~~~~
 # export NVM_DIR=~/.nvm
 # source $(brew --prefix nvm)/nvm.sh
